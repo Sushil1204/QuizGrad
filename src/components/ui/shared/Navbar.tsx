@@ -1,10 +1,12 @@
 import { MenuIcon } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { Button } from "../button";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
-    <header className="container mx-auto flex h-24 items-center justify-between px-4 md:px-8">
+    <header className="container mx-auto flex h-24 items-center justify-between px-4 md:px-8 border-b-2 border-b-slate-100">
       <a href="/" className="flex items-center space-x-2">
         <img src={logo} alt="QuizGrad" className="w-36 md:w-44 h-auto" />
       </a>
@@ -31,6 +33,7 @@ const Navbar = () => {
         </nav>
         <div className="flex items-center space-x-4">
           <Button
+            onClick={() => navigate("/login")}
             variant="outline"
             className="hidden md:inline-flex border-yellow-400 text-yellow-600 hover:bg-yellow-50"
           >
