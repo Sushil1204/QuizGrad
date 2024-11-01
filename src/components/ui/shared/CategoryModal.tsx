@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 const topics = [
   "Mathematics",
@@ -30,6 +31,7 @@ interface CategoryModalProps {
 }
 
 const CategoryModal: React.FC<CategoryModalProps> = ({ open, setOpen }) => {
+  const navigate = useNavigate();
   const [selectedTopics, setSelectedTopics] = React.useState<string[]>([]);
 
   const toggleTopic = (topic: string) => {
@@ -40,6 +42,7 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ open, setOpen }) => {
 
   const handleStartQuiz = () => {
     if (selectedTopics.length >= 5) {
+      navigate("/quiz");
       console.log("Starting quiz with topics:", selectedTopics);
       setOpen(false);
     }
