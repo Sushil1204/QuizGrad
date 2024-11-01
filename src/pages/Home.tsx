@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/heroImage.png";
 import { useState } from "react";
-import CategoryModal from "@/components/ui/shared/CategoryModal";
+import CategoryModal from "@/components/shared/CategoryModal";
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (

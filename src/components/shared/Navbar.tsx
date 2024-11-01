@@ -1,6 +1,6 @@
 import { MenuIcon } from "lucide-react";
 import logo from "@/assets/logo.png";
-import { Button } from "../button";
+import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
