@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/heroImage.png";
+import { useState } from "react";
+import CategoryModal from "@/components/ui/shared/CategoryModal";
 const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <main className="flex flex-col lg:flex-row items-center lg:justify-center gap-5 mx-24 md:my-16">
       <div className="space-y-10 text-center lg:text-left lg:w-1/2">
@@ -15,7 +18,12 @@ const Home = () => {
           We help you prepare for exams and quizzes
         </p>
         <div className="flex justify-center lg:justify-start items-center space-x-4">
-          <Button variant={"default"} size={"lg"}>
+          <Button
+            variant={"default"}
+            size={"lg"}
+            onClick={() => setIsModalOpen(true)}
+            className="bg-yellow-400"
+          >
             Start solving
           </Button>
           <Button
@@ -34,6 +42,7 @@ const Home = () => {
           className="object-cover w-auto h-[500px]"
         />
       </div>
+      <CategoryModal open={isModalOpen} setOpen={setIsModalOpen} />
     </main>
   );
 };
