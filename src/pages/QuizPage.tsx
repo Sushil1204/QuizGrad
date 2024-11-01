@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Timer } from "lucide-react";
 
 interface Option {
   id: string;
@@ -33,9 +34,11 @@ const QuizPage = () => {
 
   return (
     <div className="min-h-screen bg-background p-6">
-      <Card className="md:hidden w-16 h-16 rounded-full mx-auto my-3 flex items-center justify-center bg-white border-2 border-yellow-400 shadow-lg">
-        <span className="text-xl font-bold">{timeLeft}</span>
-      </Card>
+      <div className="md:hidden flex items-center gap-2 bg-yellow-100 px-4 py-2 rounded-full">
+        <Timer className="w-4 h-4 text-yellow-500" />
+        <span className="text-yellow-500 font-medium">{timeLeft}</span>
+      </div>
+
       {/* Progress Steps */}
       <div className="mx-auto max-w-3xl mb-8">
         <div className="flex justify-between items-center">
@@ -94,9 +97,10 @@ const QuizPage = () => {
           ← Previous
         </Button>
 
-        <Card className="hidden w-16 h-16 rounded-full md:flex items-center justify-center bg-white border-2 border-yellow-400 shadow-lg">
-          <span className="text-xl font-bold">{timeLeft}</span>
-        </Card>
+        <div className="hidden md:flex items-center gap-2 bg-yellow-100 px-4 py-2 rounded-full">
+          <Timer className="w-4 h-4 text-yellow-500" />
+          <span className="text-yellow-500 font-medium">{timeLeft}</span>
+        </div>
 
         <div className="space-x-2">
           <Button className="bg-yellow-400 text-black hover:bg-yellow-500 transition duration-300">
