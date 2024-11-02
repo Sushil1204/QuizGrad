@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import QuizPage from "./pages/QuizPage";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   let location = useLocation();
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/verify" element={<VerifyEmail />} />
       </Routes>
     </div>
   );
