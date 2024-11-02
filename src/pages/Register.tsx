@@ -13,7 +13,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useCreateAccount, useLogin } from "@/lib/react-query";
+import { INewUser } from "@/interfaces";
+import { useEffect } from "react";
 
 // Zod schema with added validations
 const formSchema = z
@@ -35,6 +38,7 @@ const formSchema = z
   });
 
 const Register = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,9 +49,22 @@ const Register = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  const { mutateAsync: createNewAccount } = useCreateAccount();
+  const { mutateAsync: loginAccount, isSuccess: isLoginSuccess } = useLogin();
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await createNewAccount({
+      email: values?.email,
+      password: values?.password,
+      name: values?.fullname,
+    });
+
+    loginAccount({ email: values?.email, password: values?.password });
   }
+
+  useEffect(() => {
+    navigate("/");
+  }, [isLoginSuccess]);
 
   return (
     <div className="container relative min-h-screen flex-col grid lg:max-w-none lg:grid-cols-2 lg:px-0 overflow-y-scroll no-scrollbar">

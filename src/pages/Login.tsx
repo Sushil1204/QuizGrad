@@ -13,7 +13,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogin } from "@/lib/react-query";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -23,6 +25,7 @@ const formSchema = z.object({
 });
 
 const Login = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,9 +33,22 @@ const Login = () => {
       password: "",
     },
   });
+
+  const {
+    data,
+    mutateAsync: loginAccount,
+    isSuccess: isLoginSuccess,
+  } = useLogin();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    loginAccount({ email: values?.email, password: values?.password });
   }
+
+  useEffect(() => {
+    if (data) {
+      navigate("/");
+    }
+  }, [isLoginSuccess]);
   return (
     <div className="container relative min-h-screen flex-col  grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="lg:p-5">

@@ -1,13 +1,20 @@
-import { INewUser } from "@/interfaces";
 import { account, ID } from "./config";
 
-export async function createNewUser(user: INewUser) {
+export async function createNewUser({
+  email,
+  password,
+  name,
+}: {
+  email: string;
+  password: string;
+  name: string;
+}) {
   try {
     const newAccount = await account.create(
       ID?.unique(),
-      user?.email,
-      user?.password,
-      user?.name
+      email,
+      password,
+      name
     );
 
     if (!newAccount) throw Error;

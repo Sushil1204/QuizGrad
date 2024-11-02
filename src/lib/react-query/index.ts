@@ -4,21 +4,24 @@ import {
   loginUser,
   getCurrentAccount,
   logoutAccount,
-  verifyUser,
 } from "../appwrite/apis";
-import { INewUser } from "@/interfaces";
 
+// Hook for creating a new account
 // Hook for creating a new account
 export const useCreateAccount = () => {
   return useMutation({
     mutationKey: ["createAccount"],
-    mutationFn: async (user: INewUser) => {
-      const newUser = await createNewUser(user);
-      if (newUser) {
-        // Trigger verification after successfully creating the account
-        await verifyUser();
-      }
-      return newUser;
+    mutationFn: async ({
+      email,
+      password,
+      name,
+    }: {
+      email: string;
+      password: string;
+      name: string;
+    }) => {
+      const newUser = await createNewUser({ email, password, name });
+      return { newUser, password }; // Return both the newUser and password
     },
   });
 };
@@ -27,12 +30,13 @@ export const useCreateAccount = () => {
 export const useLogin = () => {
   return useMutation({
     mutationKey: ["loginUser"],
-    mutationFn: (user: { email: string; password: string }) => loginUser(user),
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      loginUser({ email, password }),
   });
 };
 
 // Hook for getting the current account
-export const useCurrentAccount = () => {
+export const useGetCurrentAccount = () => {
   return useQuery({
     queryKey: ["currentAccount"],
     queryFn: () => getCurrentAccount(),
