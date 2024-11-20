@@ -63,14 +63,16 @@ const Register = () => {
   }
 
   useEffect(() => {
-    navigate("/");
+    if (isLoginSuccess) {
+      navigate("/");
+    }
   }, [isLoginSuccess]);
 
   return (
-    <div className="container relative min-h-screen flex-col grid lg:max-w-none lg:grid-cols-2 lg:px-0 overflow-y-scroll no-scrollbar">
-      <div className="lg:p-5">
-        <div className="mx-auto flex flex-col justify-center w-full space-y-6 p-10 md:p-20">
-          <div className="flex flex-col space-y-2 text-center">
+    <div className="container relative flex-col grid lg:max-w-none lg:grid-cols-2">
+      <>
+        <div className="mx-auto flex flex-col justify-center w-full space-y-6 p-10">
+          <div className="flex flex-col space-y-4 text-center">
             <div className="flex items-center justify-center mb-6">
               <img
                 src={logo}
@@ -80,11 +82,11 @@ const Register = () => {
                 className="dark:invert"
               />
             </div>
-            <h1 className="font-roboto text-xl font-normal text-muted-foreground tracking-tight">
-              Welcome back!
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Join Our Learning Community
             </h1>
-            <p className="text-sm text-muted-foreground">
-              Please login/Signup to your account.
+            <p className="text-base text-muted-foreground">
+              Start your personalized learning journey today
             </p>
           </div>
           <div className="grid gap-6">
@@ -95,7 +97,13 @@ const Register = () => {
                   control={form.control}
                   name="fullname"
                   render={({ field }) => (
-                    <FormItem className="px-4 py-2 border border-gray-300 transition-all duration-200 focus-within:border-l-4 focus-within:border-l-yellow-500">
+                    <FormItem
+                      className={`px-4 py-2 border ${
+                        field.value
+                          ? "border-l-4 border-l-yellow-500"
+                          : "border-gray-300"
+                      } transition-all duration-200`}
+                    >
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
                         <Input
@@ -115,7 +123,13 @@ const Register = () => {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem className="px-4 py-2 border border-gray-300 transition-all duration-200 focus-within:border-l-4 focus-within:border-l-yellow-500">
+                    <FormItem
+                      className={`px-4 py-2 border ${
+                        field.value
+                          ? "border-l-4 border-l-yellow-500"
+                          : "border-gray-300"
+                      } transition-all duration-200`}
+                    >
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
@@ -135,7 +149,13 @@ const Register = () => {
                   control={form.control}
                   name="password"
                   render={({ field }) => (
-                    <FormItem className="px-4 py-2 border border-gray-300 transition-all duration-200 focus-within:border-l-4 focus-within:border-l-yellow-500">
+                    <FormItem
+                      className={`px-4 py-2 border ${
+                        field.value
+                          ? "border-l-4 border-l-yellow-500"
+                          : "border-gray-300"
+                      } transition-all duration-200`}
+                    >
                       <FormLabel>Password</FormLabel>
                       <FormControl>
                         <Input
@@ -155,7 +175,13 @@ const Register = () => {
                   control={form.control}
                   name="confirmPassword"
                   render={({ field }) => (
-                    <FormItem className="px-4 py-2 border border-gray-300 transition-all duration-200 focus-within:border-l-4 focus-within:border-l-yellow-500">
+                    <FormItem
+                      className={`px-4 py-2 border ${
+                        field.value
+                          ? "border-l-4 border-l-yellow-500"
+                          : "border-gray-300"
+                      } transition-all duration-200`}
+                    >
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
                         <Input
@@ -171,26 +197,49 @@ const Register = () => {
                 />
 
                 <div className="flex items-center justify-between">
-                  <p className="font-roboto text-sm text-muted-foreground mt-2 hover:text-primary cursor-pointer">
-                    Forget password
-                  </p>
+                  <Link
+                    to="/reset-password"
+                    className="font-medium text-sm text-primary hover:underline mt-2"
+                  >
+                    Reset Password
+                  </Link>
                   <Link
                     to="/login"
-                    className="font-roboto text-sm text-muted-foreground mt-2 hover:text-primary cursor-pointer"
+                    className="font-medium text-sm text-primary hover:underline mt-2"
                   >
-                    Already registered? Click here to login
+                    Already registered? Sign in
                   </Link>
                 </div>
-                <Button type="submit" className="mt-10">
-                  Register
+                <Button type="submit" className="mt-10 w-full">
+                  Create Your Account
                 </Button>
               </form>
             </Form>
           </div>
+          <div className="text-center text-sm text-muted-foreground mt-6">
+            <p>Join thousands of knowledge seekers having fun while learning</p>
+            <p className="mt-2">
+              🎮 Learn Through Play • 🏆 Earn Achievements • 🌟 Track Progress
+            </p>
+          </div>
         </div>
-      </div>
+      </>
       <div className="flex-col hidden h-full p-10 items-center justify-center bg-secondary lg:flex dark:border-r">
-        <img src={HandsGraduate} alt="HandsGraduate" width={500} height={100} />
+        <img
+          src={HandsGraduate}
+          alt="Students graduating"
+          width={500}
+          height={100}
+        />
+        <div className="text-center mt-8">
+          <h2 className="text-xl font-semibold mb-2">
+            Learn, Play, and Grow Together
+          </h2>
+          <p className="text-muted-foreground">
+            Challenge yourself with fun quizzes and learn something new every
+            day
+          </p>
+        </div>
       </div>
     </div>
   );

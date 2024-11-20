@@ -32,7 +32,6 @@ const QuizPage = () => {
       const question = QUIZ_QUESTIONS.find(
         (q: { id: string }) => q.id === answer.id
       );
-      console.log(question);
       if (question && answer.userSelectedAnswer === question.answer) {
         correctAnswers++;
       }
@@ -50,10 +49,8 @@ const QuizPage = () => {
         },
       ]);
     }
-    console.log(selectedOption);
 
     if (isLastQuestion) {
-      console.log(isLastQuestion);
       const finalScore = calculateScore();
       setScore(finalScore);
       setShowScoreModal(true);
@@ -76,6 +73,20 @@ const QuizPage = () => {
     setSelectedOption(null);
   }, []);
 
+  const handleTryAgain = () => {
+    // Reset all quiz state
+    setCurrentQuestionIndex(0);
+    setSelectedOption(null);
+    setTimeLeft(TIMER_SECONDS);
+    setAnswers([]);
+    setScore(0);
+    setShowScoreModal(false); // Close the modal after resetting
+  };
+
+  const handleCloseModal = () => {
+    setShowScoreModal(false);
+  };
+
   React.useEffect(() => {
     setTimeLeft(TIMER_SECONDS);
 
@@ -93,105 +104,101 @@ const QuizPage = () => {
   }, [currentQuestionIndex, handleSkip, isLastQuestion]);
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="md:hidden flex items-center gap-2 bg-yellow-100 px-4 py-2 rounded-full">
-        <Timer className="w-4 h-4 text-yellow-500" />
-        <span className="text-yellow-500 font-medium">{timeLeft}</span>
-      </div>
+    <div className="h-auto bg-gradient-to-b from-yellow-50 to-white p-6">
+      {/* Header Section with Timer and Progress */}
+      <div className="max-w-4xl mx-auto mb-12">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-gray-700">
+            Question {currentQuestionIndex + 1} of {TOTAL_QUESTIONS}
+          </h2>
+          <div className="flex items-center gap-2 bg-white shadow-md px-6 py-3 rounded-full">
+            <Timer className="w-5 h-5 text-yellow-600" />
+            <span className="text-lg font-bold text-yellow-600">
+              {timeLeft}s
+            </span>
+          </div>
+        </div>
 
-      {/* Progress Steps */}
-      <div className="mx-auto max-w-3xl mb-8">
-        <div className="flex justify-between items-center">
-          {Array.from({ length: TOTAL_QUESTIONS }).map((_, index) => (
-            <React.Fragment key={index}>
-              <div
-                className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium",
-                  index === currentQuestionIndex
-                    ? "bg-yellow-400 text-black"
-                    : index < currentQuestionIndex
-                    ? "bg-green-500 text-white"
-                    : "bg-gray-200 text-gray-600"
-                )}
-              >
-                {index + 1}
-              </div>
-              {index < TOTAL_QUESTIONS - 1 && (
-                <div className="flex-1 h-[2px] bg-gray-200 mx-2" />
-              )}
-            </React.Fragment>
-          ))}
+        {/* Progress Bar instead of steps */}
+        <div className="w-full bg-gray-100 rounded-full h-2.5">
+          <div
+            className="bg-yellow-400 h-2.5 rounded-full transition-all duration-300"
+            style={{
+              width: `${((currentQuestionIndex + 1) / TOTAL_QUESTIONS) * 100}%`,
+            }}
+          />
         </div>
       </div>
 
-      {/* Question */}
-      <div className="bg-yellow-400 p-8 mb-8 rounded-lg">
-        <h1 className="text-2xl md:text-4xl font-bold text-black max-w-3xl mx-auto text-center">
-          {currentQuestion.question}
-        </h1>
-      </div>
+      {/* Question Card */}
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8">
+            {currentQuestion.question}
+          </h1>
 
-      {/* Options */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto mb-8">
-        {currentQuestion.options.map(
-          (option: { id: string; text: string }, index: number) => (
-            <Button
-              key={option.id}
-              variant="outline"
-              className={cn(
-                "h-24 text-lg font-bold",
-                selectedOption === option?.id
-                  ? "bg-yellow-400 border-yellow-400 text-black"
-                  : "bg-gray-100 hover:bg-gray-200"
-              )}
-              onClick={() => setSelectedOption(option?.id)}
-            >
-              <span className="mr-4">{`${index + 1})`}</span>
-              {option?.text}
-            </Button>
-          )
-        )}
-      </div>
-
-      {/* Navigation */}
-      <div className="flex justify-between items-center max-w-3xl mx-auto">
-        <Button
-          variant="outline"
-          className="bg-gray-200 transition duration-200 hover:bg-gray-300"
-          onClick={handlePrevious}
-          disabled={isFirstQuestion}
-        >
-          ← Previous
-        </Button>
-
-        <div className="hidden md:flex items-center gap-2 bg-yellow-100 px-4 py-2 rounded-full">
-          <Timer className="w-4 h-4 text-yellow-500" />
-          <span className="text-yellow-500 font-medium">{timeLeft}</span>
+          {/* Options Grid */}
+          <div className="grid grid-cols-1 gap-4">
+            {currentQuestion.options.map(
+              (option: { id: string; text: string }, index: number) => (
+                <Button
+                  key={option.id}
+                  variant="outline"
+                  className={cn(
+                    "w-full p-6 text-left flex items-center gap-4 transition-all duration-200",
+                    "hover:transform hover:scale-[1.01]",
+                    selectedOption === option?.id
+                      ? "bg-yellow-400 border-yellow-400 text-black shadow-md"
+                      : "bg-gray-50 hover:bg-gray-100"
+                  )}
+                  onClick={() => setSelectedOption(option?.id)}
+                >
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-700 font-medium">
+                    {String.fromCharCode(65 + index)}
+                  </span>
+                  <span className="text-lg">{option?.text}</span>
+                </Button>
+              )
+            )}
+          </div>
         </div>
 
-        <div className="space-x-2">
-          <Button
-            className="bg-yellow-400 text-black hover:bg-yellow-500 transition duration-300"
-            onClick={handleNext}
-            disabled={!selectedOption}
-          >
-            Next →
-          </Button>
+        {/* Navigation Footer */}
+        <div className="flex justify-between items-center sticky bottom-6 bg-white/80 backdrop-blur-md p-4 rounded-xl shadow-lg">
           <Button
             variant="ghost"
-            className="text-yellow-600 hover:text-yellow-700 transition duration-300"
-            onClick={handleSkip}
-            disabled={isLastQuestion}
+            className="text-gray-600 hover:text-gray-800"
+            onClick={handlePrevious}
+            disabled={isFirstQuestion}
           >
-            Skip →
+            ← Previous
           </Button>
+
+          <div className="space-x-3">
+            <Button
+              variant="ghost"
+              className="text-gray-600 hover:text-gray-800"
+              onClick={handleSkip}
+              disabled={isLastQuestion}
+            >
+              Skip
+            </Button>
+            <Button
+              className="bg-yellow-400 text-black hover:bg-yellow-500 px-8"
+              onClick={handleNext}
+              disabled={!selectedOption}
+            >
+              {isLastQuestion ? "Finish" : "Next"} →
+            </Button>
+          </div>
         </div>
       </div>
 
       <ScoreModal
         isOpen={showScoreModal}
-        onClose={() => setShowScoreModal(false)}
+        onClose={handleCloseModal}
         score={score}
+        onTryAgain={handleTryAgain}
       />
     </div>
   );

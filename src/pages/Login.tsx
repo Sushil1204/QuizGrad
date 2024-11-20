@@ -50,10 +50,10 @@ const Login = () => {
     }
   }, [isLoginSuccess]);
   return (
-    <div className="container relative min-h-screen flex-col  grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div className="container relative min-h-screen flex-col grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="lg:p-5">
-        <div className="mx-auto flex flex-col justify-center w-full space-y-6 p-10 md:p-20 ">
-          <div className="flex flex-col space-y-2 text-center">
+        <div className="mx-auto flex flex-col justify-center w-full space-y-6 p-10 md:p-20">
+          <div className="flex flex-col space-y-4 text-center">
             <div className="flex items-center justify-center mb-6">
               <img
                 src={logo}
@@ -63,11 +63,11 @@ const Login = () => {
                 className="dark:invert"
               />
             </div>
-            <h1 className="font-roboto text-xl font-normal text-muted-foreground tracking-tight">
-              Welcome back!
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Ready to Start Your Learning Adventure?
             </h1>
-            <p className="text-sm text-muted-foreground">
-              Please login/Signup to your account.
+            <p className="text-base text-muted-foreground">
+              Jump back into your personalized learning journey
             </p>
           </div>
           <div className="grid gap-6">
@@ -82,18 +82,17 @@ const Login = () => {
                         field.value
                           ? "border-l-4 border-l-yellow-500"
                           : "border-gray-300"
-                      }  transition-all duration-200`}
+                      } transition-all duration-200`}
                     >
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Academic Email</FormLabel>
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="shadcn"
+                          placeholder="your.email@university.edu"
                           {...field}
                           className="focus:outline-none"
                         />
                       </FormControl>
-
                       <FormMessage />
                     </FormItem>
                   )}
@@ -123,26 +122,49 @@ const Login = () => {
                   )}
                 />
                 <div className="flex items-center justify-between">
-                  <p className="font-roboto text-sm text-muted-foreground mt-2 hover:text-primary cursor-pointer">
-                    Forget password
-                  </p>
                   <Link
-                    to={"/register"}
-                    className="font-roboto text-sm text-muted-foreground mt-2 hover:text-primary cursor-pointer"
+                    to="/reset-password"
+                    className="font-medium text-sm text-primary hover:underline mt-2"
                   >
-                    New User? Click here to register
+                    Reset Password
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="font-medium text-sm text-primary hover:underline mt-2"
+                  >
+                    New to QuizGrad? Join now
                   </Link>
                 </div>
-                <Button type="submit" className="mt-10">
-                  Login
+                <Button type="submit" className="mt-10 w-full">
+                  Sign in to Your Account
                 </Button>
               </form>
             </Form>
           </div>
+          <div className="text-center text-sm text-muted-foreground mt-6">
+            <p>Join thousands of knowledge seekers having fun while learning</p>
+            <p className="mt-2">
+              🎮 Learn Through Play • 🏆 Earn Achievements • 🌟 Track Progress
+            </p>
+          </div>
         </div>
       </div>
-      <div className="flex-col hidden h-full p-10 items-center justify-center bg-secondary  lg:flex dark:border-r">
-        <img src={HandsGraduate} alt="HandsGraduate" width={500} height={100} />
+      <div className="flex-col hidden h-full p-10 items-center justify-center bg-secondary lg:flex dark:border-r">
+        <img
+          src={HandsGraduate}
+          alt="Students graduating"
+          width={500}
+          height={100}
+        />
+        <div className="text-center mt-8">
+          <h2 className="text-xl font-semibold mb-2">
+            Learn, Play, and Grow Together
+          </h2>
+          <p className="text-muted-foreground">
+            Challenge yourself with fun quizzes and learn something new every
+            day
+          </p>
+        </div>
       </div>
     </div>
   );

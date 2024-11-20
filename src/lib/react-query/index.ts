@@ -41,6 +41,8 @@ export const useGetCurrentAccount = () => {
   return useQuery({
     queryKey: ["currentAccount"],
     queryFn: () => getCurrentAccount(),
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
   });
 };
 
