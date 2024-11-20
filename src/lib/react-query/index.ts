@@ -4,6 +4,7 @@ import {
   loginUser,
   getCurrentAccount,
   logoutAccount,
+  generateQuiz,
 } from "../appwrite/apis";
 
 // Hook for creating a new account
@@ -48,5 +49,12 @@ export const useLogout = () => {
   return useMutation({
     mutationKey: ["logoutAccount"],
     mutationFn: () => logoutAccount(),
+  });
+};
+
+export const useGenerateQuizGame = () => {
+  return useMutation({
+    mutationKey: ["generateQuiz"],
+    mutationFn: (options: any) => generateQuiz(options),
   });
 };

@@ -62,7 +62,7 @@ const ScoreModal = ({
             onClick={handleClose}
             className="mt-8 bg-yellow-400 px-8 font-medium text-white hover:bg-yellow-500"
           >
-            Complete
+            View Report
           </Button>
         </div>
       </DialogContent>

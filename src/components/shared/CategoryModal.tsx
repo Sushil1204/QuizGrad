@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { X } from "lucide-react";
 import {
   Dialog,
@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { useGenerateQuizGame } from "@/lib/react-query";
 
 const topics = [
   "Mathematics",
@@ -40,11 +41,11 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ open, setOpen }) => {
     );
   };
 
-  const handleStartQuiz = () => {
+  const { mutateAsync: generateQuiz, data: quizQuestions } =
+    useGenerateQuizGame();
+  const handleStartQuiz = async () => {
     if (selectedTopics.length >= 5) {
-      navigate("/quiz");
-      console.log("Starting quiz with topics:", selectedTopics);
-      setOpen(false);
+      await generateQuiz(selectedTopics);
     }
   };
 
@@ -54,6 +55,13 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ open, setOpen }) => {
       setSelectedTopics([]);
     }
   };
+
+  useEffect(() => {
+    console.log("quizQuestions", quizQuestions);
+    if (quizQuestions) {
+      navigate("/quiz", { state: { questions: quizQuestions } });
+    }
+  }, [quizQuestions]);
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
